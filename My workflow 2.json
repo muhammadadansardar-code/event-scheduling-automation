@@ -1,0 +1,639 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "chose the event !",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Emial",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "phone number",
+              "placeholder": "+92300000000",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "chose your preferred day ",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Friday "
+                  },
+                  {
+                    "option": "Sunday"
+                  },
+                  {
+                    "option": "Monday "
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "chose your preferred time",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "6pm"
+                  },
+                  {
+                    "option": "11pm"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -208,
+        -16
+      ],
+      "id": "41046375-7f60-43ac-aa74-03a81397fb07",
+      "name": "On form submission",
+      "webhookId": "6c0f75b1-ab7d-40ae-a374-8a6fbaadab4c"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1c-vy0iWyGvrFS15F_PhWpbkjCjjwyhQxqiyrH9AkFIs",
+          "mode": "list",
+          "cachedResultName": "events",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c-vy0iWyGvrFS15F_PhWpbkjCjjwyhQxqiyrH9AkFIs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c-vy0iWyGvrFS15F_PhWpbkjCjjwyhQxqiyrH9AkFIs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.Name }}",
+            "phone": "={{ $json['phone number'] }}",
+            "email": "={{ $json.Emial }}",
+            "date": "={{ $json['chose your preferred day '] }}",
+            "time": "={{ $json.submittedAt }}",
+            "event time ": "={{ $json['chose your preferred time'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "event time ",
+              "displayName": "event time ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -16,
+        -64
+      ],
+      "id": "823efbf2-8a6a-4c1e-9524-9098277d82f8",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IQxAiqeEOK54Lhg7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('On form submission').item.json['chose your preferred day '] }}",
+                    "rightValue": "Friday",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b0ddfe5d-a8a9-4ad1-83cb-1fbde3724c23"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3c5690d8-791a-46ea-890b-aae1f2b3a653",
+                    "leftValue": "={{ $json.date }}",
+                    "rightValue": "Sunday",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "931c6090-20fd-434e-8c3a-da9678061f88",
+                    "leftValue": "={{ $json.date }}",
+                    "rightValue": "Monday",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        -64
+      ],
+      "id": "a8f686f6-8d30-42e5-a40a-6db06a432bfb",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Emial }}",
+        "subject": "we received your msg ",
+        "emailType": "text",
+        "message": "you are invite in our 6 pm friday event ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        -416
+      ],
+      "id": "b8b4f89f-bd9e-4767-ac7e-b2c6f4f2b0c5",
+      "name": "Send a message",
+      "webhookId": "4cf4b0c3-b130-430f-b78d-e77473bacb0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "W1qHsVoTLx3VWEBl",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Emial }}",
+        "subject": "we received your msg ",
+        "emailType": "text",
+        "message": "you are invite in our sunday 6 pm event ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -64
+      ],
+      "id": "978402f6-c472-41c9-9752-8d48e0f0e92e",
+      "name": "Send a message1",
+      "webhookId": "4cf4b0c3-b130-430f-b78d-e77473bacb0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "W1qHsVoTLx3VWEBl",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Emial }}",
+        "subject": "we received your msg ",
+        "emailType": "text",
+        "message": "you are invite in our  6 pm monday event ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        464,
+        240
+      ],
+      "id": "08064ec7-2c7a-4c5f-a811-664eaec20590",
+      "name": "Send a message2",
+      "webhookId": "4cf4b0c3-b130-430f-b78d-e77473bacb0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "W1qHsVoTLx3VWEBl",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "51dbca81-3b65-4f7e-b7a6-7ef2f390a54b",
+              "leftValue": "={{ $('On form submission').item.json['chose your preferred time'] }}",
+              "rightValue": "6pm",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        608,
+        -64
+      ],
+      "id": "cb205770-5d6c-4224-a2cb-7f3c8f5529a7",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Emial }}",
+        "subject": "we received your msg ",
+        "emailType": "text",
+        "message": "you are invite in our sunday 11  pm event ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        128
+      ],
+      "id": "60e071b6-ac79-4f80-8e69-9e35438c4046",
+      "name": "Send a message3",
+      "webhookId": "4cf4b0c3-b130-430f-b78d-e77473bacb0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "W1qHsVoTLx3VWEBl",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "46380070-eb94-463c-8504-003de6208c0b",
+              "leftValue": "={{ $('On form submission').item.json['chose your preferred time'] }}",
+              "rightValue": "6pm",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        384,
+        64
+      ],
+      "id": "ee13cd91-6e49-491d-9a6a-f17e43cccf95",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Emial }}",
+        "subject": "we received your msg ",
+        "emailType": "text",
+        "message": "you are invite in our  11 pm monday event ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        112
+      ],
+      "id": "7d411256-138b-41b0-93f3-0e5829425c52",
+      "name": "Send a message4",
+      "webhookId": "4cf4b0c3-b130-430f-b78d-e77473bacb0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "W1qHsVoTLx3VWEBl",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ec4eeca5-7290-4b38-99d4-9586ed29e57b",
+              "leftValue": "={{ $('On form submission').item.json['chose your preferred time'] }}",
+              "rightValue": "6pm",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        400,
+        -256
+      ],
+      "id": "5dbe399e-89a5-437d-8432-84cf06835a31",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Emial }}",
+        "subject": "we received your msg ",
+        "emailType": "text",
+        "message": "you are invite in our 11 pm friday event ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        -192
+      ],
+      "id": "98cca456-5e67-4e66-b79b-ec1002f18b54",
+      "name": "Send a message5",
+      "webhookId": "4cf4b0c3-b130-430f-b78d-e77473bacb0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "W1qHsVoTLx3VWEBl",
+          "name": "Gmail account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "36d1a694-b574-4e16-b9f1-7bd6bea5bc59",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f1a4693fdcdc776386c484ae483981c11d2e24eb07ad2387faea6935f62c1bd9"
+  },
+  "nodeGroups": [],
+  "id": "S12s6XhzbyDUz0YC",
+  "tags": []
+}
